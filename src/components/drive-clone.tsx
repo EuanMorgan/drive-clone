@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import { Folder, File, Upload, ChevronRight } from "lucide-react";
+import { Folder as FolderIcon, File, Upload, ChevronRight } from "lucide-react";
 import { Button } from "~/components/ui/button";
-import type { Item, File as FileType } from "./types";
+import type { Item, File as FileType, Folder } from "./types";
 
 const initialData: Item[] = [
   {
@@ -88,7 +88,7 @@ const DriveClone: React.FC = () => {
   };
 
   const renderBreadcrumbs = () => (
-    <div className="text-muted-foreground mb-4 flex items-center space-x-2">
+    <div className="mb-4 flex items-center space-x-2 text-muted-foreground">
       <button
         onClick={() => navigateToBreadcrumb(0)}
         className="hover:text-foreground"
@@ -114,24 +114,22 @@ const DriveClone: React.FC = () => {
       {items.map((item) => (
         <div
           key={item.id}
-          className="hover:bg-secondary flex items-center justify-between rounded p-2 transition-colors"
+          className="flex items-center justify-between rounded p-2 transition-colors hover:bg-secondary"
         >
           <div className="flex items-center space-x-2">
             {item.type === "folder" ? (
-              <Folder className="h-5 w-5 text-yellow-500" />
+              <FolderIcon className="h-5 w-5 text-yellow-500" />
             ) : (
               <File className="h-5 w-5 text-blue-500" />
             )}
             <span
               className={item.type === "folder" ? "cursor-pointer" : ""}
-              onClick={() =>
-                item.type === "folder" && navigateToFolder(item as Folder)
-              }
+              onClick={() => item.type === "folder" && navigateToFolder(item)}
             >
               {item.name}
             </span>
           </div>
-          <div className="text-muted-foreground flex items-center space-x-4 text-sm">
+          <div className="flex items-center space-x-4 text-sm text-muted-foreground">
             <span>{item.type === "file" ? item.size : "--"}</span>
             <span>{item.modified}</span>
           </div>
@@ -150,7 +148,7 @@ const DriveClone: React.FC = () => {
         </Button>
       </div>
       {renderBreadcrumbs()}
-      <div className="bg-card rounded-lg p-4">
+      <div className="rounded-lg bg-card p-4">
         {renderItems(currentFolder ? currentFolder.children : initialData)}
       </div>
     </div>
