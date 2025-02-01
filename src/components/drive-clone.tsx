@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Folder as FolderIcon, File, Upload, ChevronRight } from "lucide-react";
 import { Button } from "~/components/ui/button";
-import type { Item, File as FileType, Folder } from "./types";
+import type { Item, Folder } from "./types";
 
 const initialData: Item[] = [
   {
@@ -82,7 +82,7 @@ const DriveClone: React.FC = () => {
       setCurrentFolder(null);
       setBreadcrumbs([]);
     } else {
-      setCurrentFolder(breadcrumbs[index - 1]);
+      setCurrentFolder(breadcrumbs[index - 1] ?? null);
       setBreadcrumbs((prev) => prev.slice(0, index));
     }
   };
